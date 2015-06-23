@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER Samuel Taylor "samtaylor.uk@gmail.com"
 
-ENV SONARR_VERSION 2.0.0.3212
+ENV SONARR_VERSION 2.0.0.3243
 
 # To get rid of error messages like "debconf: unable to initialize frontend: Dialog":
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
