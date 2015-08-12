@@ -17,9 +17,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC \
 EXPOSE 8989
 VOLUME ["/config", "/data/shows", "/data/downloads"]
 
-ADD start.sh /
-RUN chmod +x /start.sh
+ADD entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /opt/NzbDrone
 
-CMD ["/start.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["mono", "/opt/NzbDrone/NzbDrone.exe", "--no-browser", "-data=/config"]
