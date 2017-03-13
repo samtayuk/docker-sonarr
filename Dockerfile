@@ -1,18 +1,15 @@
-FROM ubuntu:16.04
+FROM frolvlad/alpine-mono
 MAINTAINER Samuel Taylor "samtaylor.uk@gmail.com"
 
 ENV SONARR_VERSION 2.0.0.4645
 
-# To get rid of error messages like "debconf: unable to initialize frontend: Dialog":
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-
-# use sonarr master branch, user can change branch and update within sonarr
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC \
-  && echo "deb http://apt.sonarr.tv/ master main" | tee -a /etc/apt/sources.list \
-  && apt-get update -q \
-  && apt-get install -qy nzbdrone=$SONARR_VERSION xmlstarlet \
-  ; apt-get clean \
-  ; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates tar gunzip \
+   && mkdir /app \
+   && cd /app \
+   && wget "http://download.sonarr.tv/v2/master/mono/NzbDrone.master.$SONARR_VERSION.mono.tar.gz" -O "/tmp/sonarr.tar.gz" \ 
+   && tar -xf "/tmp/sonarr.tar.gz" \ 
+   && apk del .build-dependencies \
+   && rm /tmp/*
 
 EXPOSE 8989
 VOLUME ["/config", "/data/shows", "/data/downloads"]
@@ -20,7 +17,7 @@ VOLUME ["/config", "/data/shows", "/data/downloads"]
 #ADD entrypoint.sh /
 #RUN chmod +x /entrypoint.sh
 
-WORKDIR /opt/NzbDrone
+WORKDIR /app/NzbDrone
 
 #ENTRYPOINT ["/entrypoint.sh"]
-CMD ["mono", "/opt/NzbDrone/NzbDrone.exe", "--no-browser", "-data=/config"]
+CMD ["mono", "/app/NzbDrone/NzbDrone.exe", "--no-browser", "-data=/config"]
