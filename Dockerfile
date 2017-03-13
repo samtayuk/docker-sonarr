@@ -3,12 +3,12 @@ MAINTAINER Samuel Taylor "samtaylor.uk@gmail.com"
 
 ENV SONARR_VERSION 2.0.0.4645
 
-RUN apk add --no-cache sqlite \
+RUN apk add --no-cache sqlite-libs \
    && apk add --no-cache --virtual=.build-dependencies wget ca-certificates tar gzip \
    && mkdir /app \
    && cd /app \
    && wget "http://download.sonarr.tv/v2/master/mono/NzbDrone.master.$SONARR_VERSION.mono.tar.gz" -O "/tmp/sonarr.tar.gz" \ 
-   && tar -xvf "/tmp/sonarr.tar.gz" \ 
+   && tar -xf "/tmp/sonarr.tar.gz" \ 
    && apk del .build-dependencies \
    && rm /tmp/*
 
