@@ -1,7 +1,7 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Samuel Taylor "samtaylor.uk@gmail.com"
 
-ENV SONARR_VERSION 2.0.0.4326
+ENV SONARR_VERSION 2.0.0.4645
 
 # To get rid of error messages like "debconf: unable to initialize frontend: Dialog":
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -17,10 +17,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC \
 EXPOSE 8989
 VOLUME ["/config", "/data/shows", "/data/downloads"]
 
-ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+#ADD entrypoint.sh /
+#RUN chmod +x /entrypoint.sh
 
 WORKDIR /opt/NzbDrone
 
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["mono", "/opt/NzbDrone/NzbDrone.exe", "--no-browser", "-data=/config"]
