@@ -3,7 +3,7 @@ MAINTAINER Samuel Taylor "samtaylor.uk@gmail.com"
 
 ENV SONARR_VERSION 2.0.0.4645
 
-RUN apk add --no-cache mono sqlite-libs --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+RUN apk add --no-cache mono sqlite-libs libmediainfo --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
    && apk add --no-cache --virtual=.build-dependencies wget tar gzip \
    && mkdir /app \
    && cd /app \
